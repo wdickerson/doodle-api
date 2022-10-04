@@ -29,6 +29,9 @@ def post_existing_doodle(doodle_id: str, doodle: list):
     # Return the formatted doodle
     return {
         'statusCode': 200,
+        # "headers": { 
+        #     "Access-Control-Allow-Origin": os.environ['CORS_HEADER'],
+        # },
         "headers": { "Access-Control-Allow-Origin": '*' },
         'body': json.dumps({
             'doodle_id': doodle_id,
@@ -65,6 +68,9 @@ def post_new_doodle(doodle: list):
     # Return the formatted doodle
     return {
         'statusCode': 200,
+        # "headers": { 
+        #     "Access-Control-Allow-Origin": os.environ['CORS_HEADER'],
+        # },
         "headers": { "Access-Control-Allow-Origin": '*' },
         'body': json.dumps({
             'doodle_id': new_id,
