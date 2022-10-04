@@ -25,9 +25,6 @@ def get_doodle(doodle_id: str):
     # Return the formatted doodle
     return {
         'statusCode': 200,
-        # "headers": { 
-        #     "Access-Control-Allow-Origin": os.environ['CORS_HEADER'],
-        # },
         "headers": { "Access-Control-Allow-Origin": '*' },
         'body': json.dumps({
             'doodle_id': doodle_id,

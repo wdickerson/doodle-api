@@ -1,4 +1,4 @@
-import json, boto3, os, uuid
+import json, boto3, os, secrets
 from decimal import Decimal
 
 class DecimalEncoder(json.JSONEncoder):
@@ -29,9 +29,6 @@ def post_existing_doodle(doodle_id: str, doodle: list):
     # Return the formatted doodle
     return {
         'statusCode': 200,
-        # "headers": { 
-        #     "Access-Control-Allow-Origin": os.environ['CORS_HEADER'],
-        # },
         "headers": { "Access-Control-Allow-Origin": '*' },
         'body': json.dumps({
             'doodle_id': doodle_id,
@@ -45,7 +42,7 @@ def post_new_doodle(doodle: list):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(DYNAMO_TABLE)
 
-    new_id = str(uuid.uuid4())
+    new_id = secrets.token_urlsafe(10)
 
     table.put_item(
         Item={
@@ -64,13 +61,9 @@ def post_new_doodle(doodle: list):
         }
     )
 
-
     # Return the formatted doodle
     return {
         'statusCode': 200,
-        # "headers": { 
-        #     "Access-Control-Allow-Origin": os.environ['CORS_HEADER'],
-        # },
         "headers": { "Access-Control-Allow-Origin": '*' },
         'body': json.dumps({
             'doodle_id': new_id,
