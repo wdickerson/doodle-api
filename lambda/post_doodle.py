@@ -1,5 +1,7 @@
 import json, boto3, os, secrets
+from botocore.exceptions import ClientError
 from decimal import Decimal
+
 
 class DecimalEncoder(json.JSONEncoder):
   def default(self, obj):
@@ -13,16 +15,35 @@ def post_existing_doodle(doodle_id: str, doodle: list):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(DYNAMO_TABLE)
 
-    result = table.update_item(
-        Key={
-            'doodle_id': doodle_id,
-        },
-        UpdateExpression="SET doodles = list_append(doodles, :i)",
-        ExpressionAttributeValues={
-            ':i': [doodle],
-        },
-        ReturnValues="UPDATED_NEW"
-    )
+    try:
+        result = table.update_item(
+            Key={
+                'doodle_id': doodle_id,
+            },
+            UpdateExpression="SET doodles = list_append(doodles, :i)",
+            ConditionExpression='attribute_not_exists(doodles[19])', # Limit to 20 doodles
+            ExpressionAttributeValues={
+                ':i': [doodle],
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+    except ClientError as e:
+        if e.response['Error']['Code']=='ConditionalCheckFailedException':  
+            return {
+                'statusCode': 400,
+                "headers": { "Access-Control-Allow-Origin": '*' },
+                'body': json.dumps({
+                    'message': 'Too many doodles! This Dickerdoodle is full.',
+                }),
+            }
+        else:
+            return {
+                'statusCode': 400,
+                "headers": { "Access-Control-Allow-Origin": '*' },
+                'body': json.dumps({
+                    'message': 'Error adding the doodle',
+                }),
+            }
 
     updated_doodles = result['Attributes']['doodles']
 
