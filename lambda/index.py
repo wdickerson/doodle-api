@@ -27,6 +27,15 @@ def lambda_handler(event, context):
     doodle_id = path_params.get('doodle_id', None)
 
     if method == 'GET':
+        if not doodle_id:
+          return {
+                'statusCode': 400,
+                "headers": { "Access-Control-Allow-Origin": '*' },
+                'body': json.dumps({
+                    'message': 'Must provide doodle_id',
+                }, cls=DecimalEncoder),
+          }
+
         return get_doodle(doodle_id)
 
     elif method == 'POST' and doodle_id is not None:

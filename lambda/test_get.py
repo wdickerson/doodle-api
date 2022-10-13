@@ -24,12 +24,25 @@ my_event = {
 }
 
 
-# print('HERE!!! my_event')
-# print(my_event)
+print('Should get a doodle')
+print(lambda_handler(my_event, {}))
 
-test_response = lambda_handler(my_event, {})
+my_event = {
+    'httpMethod': 'GET',
+    'pathParameters': {
+        'doodle_id': None,
+    },
+}
 
-print('HERE!!! test response')
-print(test_response)
+print('Should return error with no doodle_id')
+print(lambda_handler(my_event, {}))
 
+my_event = {
+    'httpMethod': 'GET',
+    'pathParameters': {
+        'doodle_id': 'nonexistent_id',
+    },
+}
 
+print('Should return error with nonexistent doodle_id')
+print(lambda_handler(my_event, {}))
