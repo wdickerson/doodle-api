@@ -23,7 +23,7 @@ def get_doodle(doodle_id: str):
 
     if 'Item' not in response:
         return {
-            'statusCode': 400,
+            'statusCode': 404,
             "headers": { "Access-Control-Allow-Origin": '*' },
             'body': json.dumps({
                 'message': 'Doodle with that ID not found',
