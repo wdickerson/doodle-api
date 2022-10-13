@@ -21,7 +21,7 @@ def post_existing_doodle(doodle_id: str, doodle: list):
                 'doodle_id': doodle_id,
             },
             UpdateExpression="SET doodles = list_append(doodles, :i)",
-            ConditionExpression='attribute_not_exists(doodles[19])', # Limit to 20 doodles
+            ConditionExpression='attribute_not_exists(doodles[15])', # Limit to 16 doodles
             ExpressionAttributeValues={
                 ':i': [doodle],
             },

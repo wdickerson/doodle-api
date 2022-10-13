@@ -81,7 +81,7 @@ def validate_doodle(doodle):
                 }),
             }
 
-    if len(doodle) > 1000:
+    if len(doodle) > 800:
        return {
                 'statusCode': 400,
                 "headers": { "Access-Control-Allow-Origin": '*' },
