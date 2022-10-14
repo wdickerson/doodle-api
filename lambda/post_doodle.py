@@ -1,6 +1,7 @@
 import json, boto3, os, secrets
 from botocore.exceptions import ClientError
 from decimal import Decimal
+import datetime
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -69,6 +70,7 @@ def post_new_doodle(doodle: list):
         Item={
             'doodle_id': new_id,
             'doodles': [doodle],
+            'created': datetime.datetime.now().isoformat(),
             # 'doodles': [
             #     [
             #         [0, 0, 50, 50],
