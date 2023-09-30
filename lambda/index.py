@@ -16,9 +16,6 @@ dynamodb = boto3.resource('dynamodb')
 
 
 def lambda_handler(event, context):
-    # print('HERE!!! event')
-    # print(json.dumps(event))
-
     method = event.get('httpMethod') or {}
     doodle_raw = event.get('body', None)
     doodle = json.loads(doodle_raw) if doodle_raw else None
