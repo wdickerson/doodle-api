@@ -71,16 +71,6 @@ def post_new_doodle(doodle: list):
             'doodle_id': new_id,
             'doodles': [doodle],
             'created': datetime.datetime.now().isoformat(),
-            # 'doodles': [
-            #     [
-            #         [0, 0, 50, 50],
-            #         [10, 10, 50, 50],
-            #     ],
-            #     [
-            #         [10, 10, 150, 150],
-            #         [110, 110, 150, 150],
-            #     ],
-            # ],
         }
     )
 
